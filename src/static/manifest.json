@@ -1,0 +1,13 @@
+{
+  "name": "JSV REACT",
+  "description": "JSV REWORK",
+  "version": "0.0.0",
+  "manifest_version": 3,
+  "icons": {
+    "16": "logo.png",
+    "48": "logo.png",
+    "128": "logo.png"
+  },
+  "devtools_page": "devtools.html",
+  "permissions": ["storage"]
+}
