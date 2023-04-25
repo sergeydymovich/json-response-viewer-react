@@ -1,6 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import App from "./components/App";
+import RequestsContextProvider from "../context/RequestsContext";
+import App from "./Devtools";
 
 import "../assets/css/tailwind.css";
 
@@ -15,7 +16,11 @@ function init() {
   chrome.devtools.panels.create("JSV", "./icons/icon.png", "devtools.html");
 
   const root = createRoot(appContainer);
-  root.render(<App />);
+  root.render(
+    <RequestsContextProvider>
+      <App />
+    </RequestsContextProvider>
+  );
 }
 
 init();
