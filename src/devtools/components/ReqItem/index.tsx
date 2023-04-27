@@ -22,11 +22,13 @@ const ReqItem = ({ request }) => {
   }, [request]);
 
   return (
-    <div className="flex flex-col overflow-hidden">
-      <button>{getReqBtnText(request)}</button>
-      <pre>
-        {!parsedReq && <div>no content</div>}
-        {parsedReq && <JSXObject request={parsedReq} />}
+    <div className="req-item req-item_show object-container req-item_open">
+      <button className="req-btn">{getReqBtnText(request)}</button>
+      <pre className="req-content">
+        <div className="req-response">
+          {!parsedReq && <div>no content</div>}
+          {parsedReq && <JSXObject request={parsedReq} />}
+        </div>
       </pre>
     </div>
   );

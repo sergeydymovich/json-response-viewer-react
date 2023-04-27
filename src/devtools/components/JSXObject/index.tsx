@@ -1,24 +1,33 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { isEmptyObj } from "../../../utils/object.utils";
 import clsx from "clsx";
 
-const ObjectProperty = ({ object: { key, value } }) => {
+const ObjectProperty = ({
+  object: { key, value },
+  children,
+}: {
+  object: any;
+  children?: ReactNode;
+}) => {
   const isNotEmptyObj =
     value && typeof value === "object" && !isEmptyObj(value);
 
   return (
     <div
-      className={clsx("object-property flex items-start text-base", {
-        "object-property-expandable pl-4": isNotEmptyObj,
+      className={clsx("object-property", {
+        "object-property-expandable object-property-expandable_open":
+          isNotEmptyObj,
       })}
     >
       <div
-        className="object-key flex pl-5"
-        onClick={() => console.log("key click")}
+        className="object-key items-center"
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
       >
-        {key}
+        <div className="object-search-value">{key}</div>
         {isNotEmptyObj && (
-          <div className="custom-object-value ml-1 text-sm">
+          <div className="custom-object-value">
             {Array.isArray(value)
               ? `Arr(${value.length})`
               : `Obj(${Object.keys(value).length})`}
@@ -26,50 +35,41 @@ const ObjectProperty = ({ object: { key, value } }) => {
         )}
       </div>
       <div className="object-value">
-        {(() => {
-          const objValue =
-            value && typeof value === "object"
+        {children && children}
+        {!children && (
+          <div
+            className={clsx(
+              "object-search-value",
+              `object-value_${typeof value}`
+            )}
+          >
+            {value && typeof value === "object"
               ? Array.isArray(value)
                 ? "[]"
                 : "{}"
               : typeof value === "string"
               ? `'${value}'`
-              : `${value}`;
-
-          const valueType = typeof value;
-
-          return (
-            <div
-              className={clsx(
-                "object-search-value",
-                `object-value_${typeof value}`
-              )}
-            >
-              {objValue}
-            </div>
-          );
-        })()}
+              : `${value}`}
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-const ShowObject = ({ object }) => {
-  console.log("PARSED OBJ", object);
-  return (
-    <div className="relative pr-5 border-l">
-      {Object.entries(object).map(([key, value]) =>
-        value && typeof value === "object" ? (
-          <ShowObject object={value} />
-        ) : (
-          <ObjectProperty key={key} object={{ key, value }} />
-        )
-      )}
-    </div>
-  );
-};
+const ShowObject = ({ object }) => (
+  <div className="object-container">
+    {Object.entries(object).map(([key, value]) => (
+      <ObjectProperty key={key} object={{ key, value }}>
+        {value && typeof value === "object" && <ShowObject object={value} />}
+      </ObjectProperty>
+    ))}
+  </div>
+);
 
 const JSXObject = ({ request }) => {
+  console.log("ININTIAL OBJ", request);
+
   return <ShowObject object={request} />;
 };
 

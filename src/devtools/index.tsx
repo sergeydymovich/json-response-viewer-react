@@ -4,6 +4,7 @@ import RequestsContextProvider from "../context/RequestsContext";
 import App from "./Devtools";
 
 import "../assets/css/tailwind.css";
+import "../assets/css/temp.index.css";
 
 function init() {
   const appContainer = document.createElement("div");
