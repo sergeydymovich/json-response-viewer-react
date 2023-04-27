@@ -10,6 +10,7 @@
     "build": "webpack --progress --config webpack.prod.js"
   },
   "dependencies": {
+    "clsx": "^1.2.1",
     "dotenv": "^16.0.3",
     "dotenv-webpack": "^8.0.1",
     "fs": "^0.0.1-security",

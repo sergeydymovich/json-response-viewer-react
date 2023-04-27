@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getReqBtnText } from "../../../utils/string.utils";
 import { parseJSON } from "../../../utils/json.utils";
+import JSXObject from "../JSXObject";
 
 const ReqItem = ({ request }) => {
   const [parsedReq, setParsedReq] = useState<any>(null);
@@ -20,12 +21,13 @@ const ReqItem = ({ request }) => {
     });
   }, [request]);
 
-  console.log("parsedReq", parsedReq);
-
   return (
     <div className="flex flex-col overflow-hidden">
       <button>{getReqBtnText(request)}</button>
-      <pre>{!parsedReq && <div>no content</div>}</pre>
+      <pre>
+        {!parsedReq && <div>no content</div>}
+        {parsedReq && <JSXObject request={parsedReq} />}
+      </pre>
     </div>
   );
 };
