@@ -1,12 +1,13 @@
 import React from "react";
 import { useRequests } from "../../../context/RequestsContext";
+import ReqItem from "../ReqItem";
 const ReqList = () => {
   const { requests } = useRequests();
 
   return (
     <div>
       {requests.map((req) => (
-        <h1>{req.request.url}</h1>
+        <ReqItem request={req} />
       ))}
     </div>
   );
