@@ -5,16 +5,16 @@ import ObjectProperty from "./ObjectProperty";
 const ShowObject = ({ object }) => (
   <div className="object-container">
     {Object.entries(object).map(([key, value]) => {
-      const isNotEmptyObj =
+      const isFilledObject =
         value && typeof value === "object" && !isEmptyObj(value);
 
       return (
         <ObjectProperty
           key={key}
           object={{ key, value }}
-          isNotEmptyObj={isNotEmptyObj}
+          isFilledObject={isFilledObject}
         >
-          {isNotEmptyObj && <ShowObject object={value} />}
+          {isFilledObject && <ShowObject object={value} />}
         </ObjectProperty>
       );
     })}

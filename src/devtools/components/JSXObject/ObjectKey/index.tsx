@@ -1,24 +1,38 @@
-import React from "react";
+import React, { ButtonHTMLAttributes, FC } from "react";
+import clsx from "clsx";
 
-const ObjectKey = ({
-  object: { key, value },
-  onClick,
-  isNotEmptyObj,
-}: {
+// interface IObjectKey extends ButtonHTMLAttributes<HTMLButtonElement> {
+//   object: any;
+//   isFilledObject?: boolean;
+// }
+
+interface IObjectKey {
   object: any;
+  isFilledObject?: boolean;
   onClick: () => void;
-  isNotEmptyObj?: boolean;
+}
+
+const ObjectKey: FC<IObjectKey> = ({
+  object: { key, value },
+  isFilledObject,
+  onClick,
 }) => (
-  <button className="object-key" onClick={onClick}>
+  <div //TODO btn
+    className={clsx("object-key", {
+      "cursor-pointer": isFilledObject,
+      "cursor-text": !isFilledObject,
+    })}
+    onClick={onClick}
+  >
     <div className="object-search-value">{key}:</div>
-    {isNotEmptyObj && (
+    {isFilledObject && (
       <div className="custom-object-value">
         {Array.isArray(value)
           ? `Arr(${value.length})`
           : `Obj(${Object.keys(value).length})`}
       </div>
     )}
-  </button>
+  </div>
 );
 
 export default ObjectKey;

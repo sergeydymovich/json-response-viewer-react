@@ -10,7 +10,6 @@ html {
 }
 
 body {
-  display: flex;
   height: 100%;
 }
 
@@ -372,7 +371,6 @@ body {
 .object-container {
   position: relative;
   border-left: 1px dotted lightgray;
-  padding-right: 20px;
 }
 
 .object-property {
@@ -410,10 +408,6 @@ body {
 
 .object-property-expandable_open::before {
   transform: rotate(90deg);
-}
-
-.object-property-expandable > .object-key {
-  cursor: pointer;
 }
 
 .object-property-expandable_open > .object-value {

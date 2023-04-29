@@ -5,30 +5,30 @@ import clsx from "clsx";
 
 const ObjectProperty = ({
   object,
-  isNotEmptyObj,
+  isFilledObject,
   children,
 }: {
   object: any;
-  isNotEmptyObj?: boolean;
+  isFilledObject?: boolean;
   children?: ReactNode;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { key, value } = object;
+  const toggleIsOpen = () => setIsOpen((prev) => !prev);
 
   return (
     <div
       className={clsx("object-property", {
-        "object-property-expandable ": isNotEmptyObj,
+        "object-property-expandable": isFilledObject,
         "object-property-expandable_open": isOpen,
       })}
     >
       <ObjectKey
         object={object}
-        isNotEmptyObj={isNotEmptyObj}
-        onClick={() => setIsOpen((prev) => !prev)}
+        isFilledObject={isFilledObject}
+        onClick={isFilledObject ? toggleIsOpen : null}
       />
-      <ObjectValue value={value}>{children}</ObjectValue>
+      <ObjectValue value={object.value}>{children}</ObjectValue>
     </div>
   );
 };
