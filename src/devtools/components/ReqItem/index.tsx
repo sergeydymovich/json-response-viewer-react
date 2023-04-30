@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { getReqBtnText } from "../../../utils/string.utils";
 import { parseJSON } from "../../../utils/json.utils";
 import JSXObject from "../JSXObject";
+import { usePanel } from "../../../context/PanelContext";
+
 import clsx from "clsx";
 
 const ReqItem = ({ request }) => {
@@ -13,6 +15,13 @@ const ReqItem = ({ request }) => {
   const isSuccessStatus = resStatus > 199 && resStatus < 300;
 
   const reqPayload = request.request.postData?.text;
+  const buttonText = getReqBtnText(request);
+
+  const { filter } = usePanel();
+
+  const isRequestShow = buttonText.toLowerCase().includes(filter.toLowerCase());
+
+  const { search } = usePanel();
 
   useEffect(() => {
     request.getContent((content) => {
@@ -28,7 +37,8 @@ const ReqItem = ({ request }) => {
 
   return (
     <div
-      className={clsx("req-item req-item_show object-container ", {
+      className={clsx("req-item  object-container ", {
+        "req-item_show": isRequestShow,
         "req-item_open": isResponseOpen,
         "req-item_success": isSuccessStatus,
         "req-item_error": !isSuccessStatus,
@@ -38,16 +48,26 @@ const ReqItem = ({ request }) => {
         className="req-btn"
         onClick={() => setIsResponseOpen((prev) => !prev)}
       >
-        {getReqBtnText(request)}
+        {buttonText}
       </button>
       <pre className="req-content">
         <div className="req-response">
           {!parsedReq && <div>no content</div>}
-          {parsedReq && <JSXObject request={parsedReq} />}
+          {parsedReq && (
+            <JSXObject
+              isShow={isResponseOpen}
+              request={parsedReq}
+              search={search}
+            />
+          )}
           {reqPayload && (
             <div className="req-payload">
               <h3 className="req-subtitle">request payload</h3>
-              <JSXObject request={parseJSON(reqPayload)} />
+              <JSXObject
+                isShow={isResponseOpen}
+                request={parseJSON(reqPayload)}
+                search={search}
+              />
             </div>
           )}
         </div>

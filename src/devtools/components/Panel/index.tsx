@@ -1,7 +1,7 @@
 import React from "react";
 import { usePanel } from "../../../context/PanelContext";
 import { useRequests } from "../../../context/RequestsContext";
-import { CrossedOutCircle } from "../../icons";
+import { CrossedOutCircle, SettingsIcon } from "../../icons";
 import { Checkbox, Input } from "../../ui";
 import { useSettings } from "../../../context/SettingsContext";
 import clsx from "clsx";
@@ -18,6 +18,7 @@ const Panel = () => {
     setIsExpandRequests,
     isPreserveLog,
     setIsPreserveLog,
+    toggleIsSettingsOpen,
   } = usePanel();
 
   const { clearRequests } = useRequests();
@@ -56,8 +57,8 @@ const Panel = () => {
           onChange={setSearch}
           onCrossClick={clearSearch}
         />
-        <button className="clear-list-button" onClick={null}>
-          SETTINGS BTN
+        <button className="clear-list-button" onClick={toggleIsSettingsOpen}>
+          <SettingsIcon className="crossed-circle-icon" />
         </button>
       </div>
     </div>

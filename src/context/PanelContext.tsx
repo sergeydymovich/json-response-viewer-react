@@ -13,6 +13,7 @@ const initialState = {
   search: "",
   isPreserveLog: false,
   isExpandRequests: false,
+  isSettingsOpen: false,
 };
 
 interface IPanelContextProps {
@@ -26,6 +27,8 @@ interface IPanelContextProps {
   setIsExpandRequests?: (e: ChangeEvent<HTMLInputElement>) => void;
   isPreserveLog: boolean;
   setIsPreserveLog?: (e: ChangeEvent<HTMLInputElement>) => void;
+  isSettingsOpen: boolean;
+  toggleIsSettingsOpen?: () => void;
 }
 
 const PanelContext = createContext<IPanelContextProps>(initialState);
@@ -39,6 +42,9 @@ const PanelContextProvider = ({ children }: PropsWithChildren) => {
   );
   const [isExpandRequests, setIsExpandRequests] = useState(
     initialState.isExpandRequests
+  );
+  const [isSettingsOpen, setIsSettingsOpen] = useState(
+    initialState.isSettingsOpen
   );
 
   const handleSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -68,6 +74,10 @@ const PanelContextProvider = ({ children }: PropsWithChildren) => {
     []
   );
 
+  const toggleIsSettingsOpen = useCallback(() => {
+    setIsSettingsOpen((prev) => !prev);
+  }, []);
+
   const value = useMemo(
     () => ({
       search,
@@ -80,6 +90,8 @@ const PanelContextProvider = ({ children }: PropsWithChildren) => {
       setIsExpandRequests: handleExpandChange,
       isPreserveLog,
       setIsPreserveLog: handlePreserveChange,
+      isSettingsOpen,
+      toggleIsSettingsOpen,
     }),
     [
       search,
@@ -92,6 +104,7 @@ const PanelContextProvider = ({ children }: PropsWithChildren) => {
       handleExpandChange,
       isPreserveLog,
       handlePreserveChange,
+      toggleIsSettingsOpen,
     ]
   );
 

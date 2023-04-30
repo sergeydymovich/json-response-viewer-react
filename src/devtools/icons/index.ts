@@ -1,2 +1,3 @@
 export * from "./CrossIcon";
-export * from "./CrossedOutCircle";
+export * from "./CrossedOutCircleIcon";
+export * from "./SettingsIcon";
