@@ -24,10 +24,8 @@ body {
 /* #F5F5F5 */
 /* #DADCE0 */
 .panel {
-  position: fixed;
+  position: sticky;
   top: 0;
-  right: 0;
-  left: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;

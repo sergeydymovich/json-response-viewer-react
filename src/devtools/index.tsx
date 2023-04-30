@@ -5,6 +5,7 @@ import App from "./Devtools";
 
 import "../assets/css/tailwind.css";
 import "../assets/css/temp.index.css";
+import PanelContextProvider from "../context/PanelContext";
 
 function init() {
   const appContainer = document.createElement("div");
@@ -18,9 +19,11 @@ function init() {
 
   const root = createRoot(appContainer);
   root.render(
-    <RequestsContextProvider>
-      <App />
-    </RequestsContextProvider>
+    <PanelContextProvider>
+      <RequestsContextProvider>
+        <App />
+      </RequestsContextProvider>
+    </PanelContextProvider>
   );
 }
 

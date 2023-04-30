@@ -4,19 +4,28 @@ import React, {
   createContext,
   PropsWithChildren,
   useEffect,
+  useCallback,
+  useMemo,
 } from "react";
+
+const initialState = {
+  requests: [],
+};
 
 interface IRequestsContextProps {
   requests: Array<any>;
+  clearRequests?: () => void;
 }
 
-const RequestsContext = createContext<IRequestsContextProps>({
-  requests: [],
-});
+const RequestsContext = createContext<IRequestsContextProps>(initialState);
 RequestsContext.displayName = "RequestsContext";
 
 const RequestsContextProvider = ({ children }: PropsWithChildren) => {
   const [requests, setRequests] = useState<any>([]);
+
+  const handleResetRequests = useCallback(() => {
+    setRequests(initialState.requests);
+  }, []);
 
   useEffect(() => {
     chrome.devtools.network.onRequestFinished.addListener((request) => {
@@ -27,8 +36,16 @@ const RequestsContextProvider = ({ children }: PropsWithChildren) => {
     });
   }, []);
 
+  const value = useMemo(
+    () => ({
+      requests,
+      clearRequests: handleResetRequests,
+    }),
+    [requests, handleResetRequests]
+  );
+
   return (
-    <RequestsContext.Provider value={{ requests }}>
+    <RequestsContext.Provider value={value}>
       {children}
     </RequestsContext.Provider>
   );
