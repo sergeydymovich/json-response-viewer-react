@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReqList from "./components/ReqList";
 import Panel from "./components/Panel";
+import { useSettings } from "../context/SettingsContext";
 
 const Devtools = () => {
-  // if (chrome.devtools.panels.themeName === "dark") {
-  //   const panel = document.getElementById("panel");
-  //   panel.classList.add("panel-dark");
-  // }
+  const { setSettings } = useSettings();
+
+  useEffect(() => {
+    setSettings({ theme: chrome.devtools.panels.themeName });
+  }, []);
 
   return (
     <div className="content">

@@ -3,15 +3,31 @@ import { usePanel } from "../../../context/PanelContext";
 import { useRequests } from "../../../context/RequestsContext";
 import { CrossedOutCircle } from "../../icons";
 import { Checkbox, Input } from "../../ui";
+import { useSettings } from "../../../context/SettingsContext";
+import clsx from "clsx";
 
 const Panel = () => {
-  const { search, setSearch, clearSearch, filter, setFilter, clearFilter } =
-    usePanel();
+  const {
+    search,
+    setSearch,
+    clearSearch,
+    filter,
+    setFilter,
+    clearFilter,
+    isExpandRequests,
+    setIsExpandRequests,
+    isPreserveLog,
+    setIsPreserveLog,
+  } = usePanel();
 
   const { clearRequests } = useRequests();
 
+  const {
+    settings: { theme },
+  } = useSettings();
+
   return (
-    <div className="panel">
+    <div className={clsx("panel", { "panel-dark": theme === "dark" })}>
       <div className="left-column">
         <button className="clear-list-button" onClick={clearRequests}>
           <CrossedOutCircle className="crossed-circle-icon" />
@@ -22,16 +38,27 @@ const Panel = () => {
           onChange={setFilter}
           onCrossClick={clearFilter}
         />
-        <Checkbox label="Preserve log" />
+        <Checkbox
+          value={isPreserveLog}
+          onChange={setIsPreserveLog}
+          label="Preserve log"
+        />
       </div>
       <div className="right-column">
-        <Checkbox label="Expand" />
+        <Checkbox
+          value={isExpandRequests}
+          onChange={setIsExpandRequests}
+          label="Expand"
+        />
         <Input
           placeholder="search"
           value={search}
           onChange={setSearch}
           onCrossClick={clearSearch}
         />
+        <button className="clear-list-button" onClick={null}>
+          SETTINGS BTN
+        </button>
       </div>
     </div>
   );

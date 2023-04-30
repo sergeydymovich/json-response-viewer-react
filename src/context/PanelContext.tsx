@@ -11,6 +11,8 @@ import React, {
 const initialState = {
   filter: "",
   search: "",
+  isPreserveLog: false,
+  isExpandRequests: false,
 };
 
 interface IPanelContextProps {
@@ -20,6 +22,10 @@ interface IPanelContextProps {
   filter: string;
   setFilter?: (e: ChangeEvent<HTMLInputElement>) => void;
   clearFilter?: () => void;
+  isExpandRequests: boolean;
+  setIsExpandRequests?: (e: ChangeEvent<HTMLInputElement>) => void;
+  isPreserveLog: boolean;
+  setIsPreserveLog?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const PanelContext = createContext<IPanelContextProps>(initialState);
@@ -28,6 +34,12 @@ PanelContext.displayName = "PanelContext";
 const PanelContextProvider = ({ children }: PropsWithChildren) => {
   const [search, setSearch] = useState(initialState.search);
   const [filter, setFilter] = useState(initialState.filter);
+  const [isPreserveLog, setIsPreserveLog] = useState(
+    initialState.isPreserveLog
+  );
+  const [isExpandRequests, setIsExpandRequests] = useState(
+    initialState.isExpandRequests
+  );
 
   const handleSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -45,6 +57,17 @@ const PanelContextProvider = ({ children }: PropsWithChildren) => {
     setFilter(initialState.filter);
   }, []);
 
+  const handleExpandChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setIsExpandRequests(e.target.checked);
+  }, []);
+
+  const handlePreserveChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setIsPreserveLog(e.target.checked);
+    },
+    []
+  );
+
   const value = useMemo(
     () => ({
       search,
@@ -53,8 +76,23 @@ const PanelContextProvider = ({ children }: PropsWithChildren) => {
       filter,
       setFilter: handleFilterChange,
       clearFilter,
+      isExpandRequests,
+      setIsExpandRequests: handleExpandChange,
+      isPreserveLog,
+      setIsPreserveLog: handlePreserveChange,
     }),
-    [search, handleSearchChange, clearSearch, filter, setFilter, clearFilter]
+    [
+      search,
+      handleSearchChange,
+      clearSearch,
+      filter,
+      setFilter,
+      clearFilter,
+      isExpandRequests,
+      handleExpandChange,
+      isPreserveLog,
+      handlePreserveChange,
+    ]
   );
 
   return (
